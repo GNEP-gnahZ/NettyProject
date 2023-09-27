@@ -6,26 +6,36 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * 生物服务器
+ *
+ * @author Zhang
+ * @date 2023/09/23 14:52:15
+ */
 public class BioServer {
+
+    //cmd telnet 127.0.0.1 6666
+    //多个cmd请求的线程不一样
     public static void main(String[] args) throws Exception{
 
         //线程池机制
 
         //思路
         //1.创建一个线程池
-        //2.如果有客户端连接，就创建一个县城，与之通讯
+        //2.如果有客户端连接，就创建一个线程，与之通讯
 
-        ExecutorService CachedThreadPool = Executors.newCachedThreadPool();
+        ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
         ServerSocket serverSocket = new ServerSocket(6666);
 
+        System.out.println("服务器启动了");
         while (true){
             //监听，等待客户连接
             final Socket socket = serverSocket.accept();
             System.out.println("连接到一个客户端");
 
             //创建一个线程与之通讯
-            CachedThreadPool.execute(new Runnable() {
+            cachedThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     handler(socket);
